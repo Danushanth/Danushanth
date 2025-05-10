@@ -16,17 +16,20 @@ def Deposite(amount):
         print(f"successfully deposited{amount}.New balance:{Balance}")
 
         with open('transation_history.txt','a') as file:
-            file.write(f"{amount},{Balance}\n")
+            file.write(f"Deposit:Rs {amount}, Balance:Rs{Balance}\n")
 
         return Balance
+    
+    else:
+        print("Deposit amount must be non-negative.")
 
 #Withdraw
 def withdraw(amount):
     global Balance
 
-    if amount < Balance:
-        Balance < amount
-        print(f"successfully withdraw {amount}. New balance:{Balance}.")
+    if amount <= Balance:
+        Balance -= amount
+        print(f"successfully withdraw Rs{amount}. New balance:Rs{Balance}.")
 
         with open("transation_history.txt",'a') as file:
             file.write(f"{amount},{Balance}\n")
@@ -40,6 +43,7 @@ def withdraw(amount):
 
 
 while True:
+    print("\n========= BANKING SYSTEM MENU =========")
     print("1.Create Account")
     print("2.Diposit Money")
     print("3.Withdraw Money")
@@ -57,17 +61,18 @@ while True:
         print("create account for",user_name)
         print("your account number")
     
+    
 
         with open('user_details.txt','a') as file:
             file.write(f"{user_name},{password},{Address},{NIC_NUMBER}\n")
 
 
     elif choice=="2":
-        amount=float(input("Enter the amount to deposite"))
+        amount=float(input("Enter the amount to deposit:Rs"))
         Deposite(amount)
 
         with open('diposit details.txt','a') as file:
-            file.write(f"{amount},{Balance}\n")
+            file.write(f"Deposit: Rs{amount},{Balance}\n")
 
 
     elif choice=="3":
@@ -77,7 +82,7 @@ while True:
             print("Insufficient balance")
 
 
-        with open('user_details.txt','a') as file:
+        with open('withraw.txt','a') as file:
             file.write(f"{amount},{Balance}\n")
             print("Withraw successfull!")
 
@@ -85,12 +90,15 @@ while True:
         print("your available balance is Rs")
         print(Balance)
 
-    elif choice=="5":
-        print()
+    
+    elif choice == "5":
+        print("\n===== Transaction History =====")
+        try:
+            with open("transaction_history.txt", "r") as file:
+                print(file.read())
+        except FileNotFoundError:
+            print("No transaction history found.")
 
-    elif choice=="6":
-        print("Exit")
+    elif choice == "6":
+        print("Exit. Good bye!")
         break
-
-
-
